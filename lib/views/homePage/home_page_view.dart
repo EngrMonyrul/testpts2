@@ -12,6 +12,9 @@ class HomePageView extends StatefulWidget {
 }
 
 class _HomePageViewState extends State<HomePageView> {
+  TextEditingController _searchController = TextEditingController();
+  searchFeild(){}
+
   @override
   Widget build(BuildContext context) {
     final homePageProvider = Provider.of<HomePageProvider>(context);
@@ -32,6 +35,7 @@ class _HomePageViewState extends State<HomePageView> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: TextField(
+                controller: _searchController,
                 decoration: InputDecoration(
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),

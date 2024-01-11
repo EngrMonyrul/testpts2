@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:testpts/models/error_model.dart';
+import 'package:testpts/models/login_response.dart';
 import 'package:testpts/models/login_success_model.dart';
 import 'package:testpts/models/user_model.dart';
 
@@ -24,13 +25,11 @@ class ApiService {
       );
       if (response.statusCode == 200) {
         final jsonBody = await json.decode(response.body.toString());
-        LogInSuccessModel logInSuccessModel =
-            LogInSuccessModel.fromJson(jsonBody);
+        LogInSuccessModel logInSuccessModel = LogInSuccessModel.fromJson(jsonBody);
         print(jsonBody);
         return logInSuccessModel;
       } else {
-        AlertServices.alertServices
-            .toggleSms(msg: 'Invalid Url', color: Colors.red);
+        AlertServices.alertServices.toggleSms(msg: 'Login Failed', color: Colors.red);
       }
     } catch (e) {
       rethrow;
@@ -105,6 +104,29 @@ class ApiService {
         return true;
       } else {
         return false;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<LoginResponse?> loginService({required Map<String, dynamic> data}) async {
+    try {
+      final jsonData = json.encode(data);
+      final response = await http.post(
+        Uri.parse('$_baseUrl/authaccount/login'),
+        body: jsonData,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonBody = await json.decode(response.body.toString());
+        LoginResponse loginResponse = LoginResponse.fromJson(jsonBody);
+        return loginResponse;
+      } else {
+        AlertServices.alertServices.toggleSms(msg: 'Login Failed', color: Colors.red);
       }
     } catch (e) {
       rethrow;

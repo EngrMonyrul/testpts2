@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -21,12 +23,18 @@ class _LoginPageViewState extends State<LoginPageView> {
         Provider.of<LoginPageProvider>(context, listen: false);
     final homePageProvider =
         Provider.of<HomePageProvider>(context, listen: false);
-    await loginPageProvider.setSignIn().then((value) async {
-      if(loginPageProvider.canNavigate){
-        await homePageProvider.getAllData(userToken: loginPageProvider.logInSuccessModel.data!.token!);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePageView()));
-      }
-    });
+    // await loginPageProvider.setSignIn().then((value) async {
+    //   if(loginPageProvider.canNavigate){
+    //     await homePageProvider.getAllData(userToken: loginPageProvider.logInSuccessModel.data!.token!);
+    //     Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePageView()));
+    //   }
+    // });
+    bool success = await loginPageProvider.getLogin(
+        name: 'a222@gmail.com', password: '123456');
+    if (success) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const HomePageView()));
+    } else {}
   }
 
   void SignUpPressed() {

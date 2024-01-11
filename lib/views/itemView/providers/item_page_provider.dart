@@ -26,15 +26,11 @@ class ItemPageProvider extends ChangeNotifier {
     final resData = await apiService.updateUser(
         url: "/users/${userData.id}", bearerToken: bearerToken, data: data);
     print(resData);
+    notifyListeners();
   }
 
-  void setNamePermission() {
-    if (_editName) {
-      _editName = false;
-      _name.clear();
-    } else {
-      _editName = true;
-    }
+  void setNamePermission({required bool edit}) {
+    _editName = edit;
     notifyListeners();
   }
 }
